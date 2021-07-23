@@ -147,6 +147,7 @@ Check out [actions/virtual-environments/images/linux][linuxes].
     -   I trust Github maybe more than I trust facebook... still on the fence as
         to whether or not I like the idea of them having my DO server's SSH
         deploy key...
+- actions - such as `actions/checkout@v2`, `actions/setup-node`, etc are just Github Repositories. The official ones are [github.com/actions](https://github.com/actions).
 
 ## Good References
 
