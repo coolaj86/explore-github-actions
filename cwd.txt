@@ -2,6 +2,8 @@ LICENSE
 README.md
 bin.txt
 cwd.txt
+github-path.txt
 home-local-bin.txt
+path.txt
 usr-bin.txt
 workspace.txt
