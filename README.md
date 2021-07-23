@@ -38,7 +38,11 @@ that's actually a pretty huge, full Linux distribution.
 Almost every tool you can imagine is already installed, and even
 `${HOME}/.local/bin` is already in your `$PATH`.
 
-Here's
+The [.github/workflows/my-github-actions.yml][ga], intended to explore what the
+Github Actions environment looks and behaves like, looks like this:
+
+[ga]:
+    https://github.com/coolaj86/explore-github-actions/blob/master/.github/workflows/my-github-actions.yml
 
 ```yaml
 name: Inspect GitHub Actions Environment
