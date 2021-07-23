@@ -13,15 +13,15 @@ jobs:
             - run: echo "🖥️ The workflow is now ready to test your code on the runner."
             - name: List files in the repository
               run: |
-                  ls .
-            - run: |
-                  ls ${{ github.workspace }}
-            - run: ls /bin
-            - run: ls /sbin || true
-            - run: ls /usr/bin
-            - run: ls /usr/sbin || true
-            - run: ls /usr/local/bin || true
-            - run: ls /usr/local/sbin || true
+                  ls . > cwd.txt
+                  ls ${{ github.workspace }} > workspace.txt
+            - run: ls /bin > bin.txt
+            - run: ls /sbin || true > sbin.txt
+            - run: ls /usr/bin > usr-bin.txt
+            - run: ls /usr/sbin || true > usr-sbin.txt
+            - run: ls /usr/local/bin || true > usr-local-bin.txt
+            - run: ls /usr/local/sbin || true > user-local-sbin.txt
+            - run: ls ~/.local/bin || true > home-local-bin.txt
             - name: Webi
               run: |
                 echo Home: "${HOME}"
@@ -33,4 +33,11 @@ jobs:
                 node --version
                 curl -sS https://webinstall.dev/hugo | bash
                 hugo version
+            - name: Re-Commit
+              run: |
+                git config --global user.name 'Github Actions'
+                git config --global user.email 'github-actions@users.noreply.github.com'
+                git add *.txt
+                git commit -m "update bins list" || true
+                git push
             - run: echo "🍏 This job's status is ${{ job.status }}."
