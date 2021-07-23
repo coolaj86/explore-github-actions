@@ -1,3 +1,7 @@
 LICENSE
 README.md
+bin.txt
 cwd.txt
+home-local-bin.txt
+usr-bin.txt
+workspace.txt
