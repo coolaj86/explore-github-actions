@@ -14,11 +14,11 @@ jobs:
             - name: List files in the repository
               run: |
                   ls .
-              run: |
+            - run: |
                   ls ${{ github.workspace }}
-              run: |
+            - run: |
                   rsync --help
-              run: |
+            - run: |
                   curl --help
                   wget --help
             - run: echo "🍏 This job's status is ${{ job.status }}."
