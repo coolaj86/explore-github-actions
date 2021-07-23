@@ -45,31 +45,69 @@ Github Actions environment looks and behaves like, looks like this:
     https://github.com/coolaj86/explore-github-actions/blob/master/.github/workflows/my-github-actions.yml
 
 ```yaml
-name: Inspect GitHub Actions Environment
+name: GitHub Actions Demo
 on: [push]
 jobs:
     Explore-GitHub-Actions:
         runs-on: ubuntu-20.04
+        # Demo is set up in Settings > Environments for Encrypted Secrets
+        environment: Demo
+        env:
+            MY_PUBLIC_ENV: 'Hello, World!'
+            MY_DEMO_SECRET: ${{ secrets.MY_DEMO_SECRET }}
         steps:
-            - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-            - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-            - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-            - name: Check out repository code (TODO do this the normal way)
+            - run:
+                  echo "🎉 ${{ github.event_name }} on 🐧 ${{ runner.os }} for
+                  🔎 ${{ github.repository }}#${{ github.ref }}"
+            - name: Check out repository code
               uses: actions/checkout@v2
-            - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-            - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-            - name: List files in the repository
+            - run: echo "💡 Ready!"
+            - name: 🖥️ Check where we are...
               run: |
-                  ls .
+                  echo Home: "${HOME}"
+                  echo CWD: "$(pwd)"
+                  ls . > cwd.txt
+                  ls ${{ github.workspace }} > workspace.txt
+            - name: Check which commands are installed...
               run: |
-                  ls ${{ github.workspace }}
+                  ls /bin > bin.txt
+                  ls /usr/bin > usr-bin.txt
+                  ls /usr/local/bin || true > usr-local-bin.txt
+                  ls ~/.local/bin || true > home-local-bin.txt
+            - name: Check the PATH...
               run: |
-                  rsync --help
+                  cat "${GITHUB_PATH}" > github-path.txt
+                  echo "${PATH}" > path.txt
+            - name: Webi Installs and PATH Updates
               run: |
-                  curl --help
-                  wget --help
+                  curl -sS https://webinstall.dev/ | bash
+                  echo "${HOME}/.local/bin" >> $GITHUB_PATH
+                  curl -sS https://webinstall.dev/node@14 | bash
+                  echo "${HOME}/.local/opt/node/bin" >> $GITHUB_PATH
+                  curl -sS https://webinstall.dev/hugo | bash
+            - name: Verify Webi Installs
+              run: |
+                  node --version
+                  hugo version
+            - name: Run the build!
+              run: bash ./scripts/build.sh
+            - name: Add changes, if any
+              run: |
+                  if [[ $(git diff --stat) != '' ]]; then
+                    git config --global user.name 'Github Actions'
+                    git config --global user.email 'github-actions@users.noreply.github.com'
+                    git add *.txt
+                    git commit -m "update bins list" || true
+                    git push
+                  fi
             - run: echo "🍏 This job's status is ${{ job.status }}."
 ```
+
+Aside from the `PATH` and `ENV` exports, this probably could have all run as a
+bash script from `./scripts`.
+
+In fact, that probably could have worked too just using normal `export`, but
+then it may not be available in other `run` blocks.
 
 ## What's Available?
 
