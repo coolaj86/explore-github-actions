@@ -103,6 +103,10 @@ jobs:
             - run: echo "🍏 This job's status is ${{ job.status }}."
 ```
 
+And look! The Secret ENVs are present, and redaction is working!
+
+![Secret ENVs](https://user-images.githubusercontent.com/122831/126843568-519fd424-6eba-47d1-8eb3-5e4c6af932df.png "message redacted")
+
 Aside from the `PATH` and `ENV` exports, this probably could have all run as a
 bash script from `./scripts`.
 
@@ -114,8 +118,8 @@ then it may not be available in other `run` blocks.
 -   curl
 -   wget
 -   rsync
--   node
 -   git
+-   node
 
 And thousands more. 👀 Check the `*.txt` files in this repo 👆 for the
 up-to-date list.
