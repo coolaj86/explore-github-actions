@@ -22,6 +22,8 @@ jobs:
             - run: ls /usr/local/bin || true > usr-local-bin.txt
             - run: ls /usr/local/sbin || true > user-local-sbin.txt
             - run: ls ~/.local/bin || true > home-local-bin.txt
+            - run: cat "${GITHUB_PATH}" > github-path.txt
+            - run: echo "${PATH}" > path.txt
             - name: Webi
               run: |
                 echo Home: "${HOME}"
@@ -37,7 +39,7 @@ jobs:
               run: |
                 git config --global user.name 'Github Actions'
                 git config --global user.email 'github-actions@users.noreply.github.com'
-                git add *.txt
+                git add *.txt || true
                 git commit -m "update bins list" || true
                 git push
             - run: echo "🍏 This job's status is ${{ job.status }}."
