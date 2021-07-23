@@ -16,9 +16,21 @@ jobs:
                   ls .
             - run: |
                   ls ${{ github.workspace }}
-            - run: |
-                  rsync --help
-            - run: |
-                  curl --help
-                  wget --help
+            - name: A label for the Run down arrow for the following commands
+              run: |
+                  ls /bin
+                  ls /sbin || true
+                  ls /usr/bin
+                  ls /usr/sbin || true
+                  ls /usr/local/bin || true
+                  ls /usr/local/sbin || true
+            - name: Webi
+              run: |
+                echo Home: "${HOME}"
+                echo CWD: "$(pwd)"
+                curl -sS https://webinstall.dev/ | bash
+                echo "/Users/test/.local/bin" >> $GITHUB_PATH
+                curl -sS https://webinstall.dev/node@14 | bash
+                echo "/Users/test/.local/opt/node/bin" >> $GITHUB_PATH
+                node --version
             - run: echo "🍏 This job's status is ${{ job.status }}."
